@@ -3,7 +3,7 @@ export class ApiConfig {
   static dataverseApiAuthMechanism: DataverseApiAuthMechanism
   static dataverseApiKey?: string
   static bearerTokenLocalStorageKey?: string
-  static bearerTokenGetFunction?: () => string
+  static bearerTokenGetFunction?: () => string | null
 
   static init(
     dataverseApiUrl: string,
