@@ -21,7 +21,7 @@
     "lint:prettier": "prettier --check '**/*.(yml|json|md)'",
     "format": "prettier --write './**/*.{js,ts,md,json,yml,md}' --config ./.prettierrc",
     "typecheck": "tsc --noEmit",
-    "prepare": "husky"
+    "prepare": "husky && npm run build"
   },
   "repository": {
     "type": "git",
