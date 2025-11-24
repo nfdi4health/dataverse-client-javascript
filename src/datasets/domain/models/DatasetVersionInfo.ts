@@ -1,4 +1,4 @@
-import { DatasetLicense, DatasetMetadataBlocks } from "./Dataset";
+import { DatasetLicense, DatasetMetadataBlocks, DatasetVersionState } from "./Dataset";
 import { FilePayload } from "../../../files/infra/repositories/transformers/FilePayload";
 
 export interface DatasetVersionInfo {
@@ -11,7 +11,8 @@ export interface DatasetVersionInfo {
   versionNumber: number
   versionMinorNumber: number
   internalVersionNumber: number
-  versionState: string
+  versionState: DatasetVersionState
+  isInReviewState: boolean
   latestVersionPublishingState: string
   lastUpdateTime: string
   releaseTime: string
