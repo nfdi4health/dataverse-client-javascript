@@ -1,0 +1,30 @@
+import { DatasetLicense, DatasetMetadataBlocks } from "./Dataset";
+import { FilePayload } from "../../../files/infra/repositories/transformers/FilePayload";
+
+export interface DatasetVersionInfo {
+  id: number
+  datasetId: number
+  datasetPersistentId: string
+  alternativePersistentId: string
+  datasetType: string
+  storageIdentifier: string
+  versionNumber: number
+  versionMinorNumber: number
+  internalVersionNumber: number
+  versionState: string
+  latestVersionPublishingState: string
+  lastUpdateTime: string
+  releaseTime: string
+  createTime: string
+  publicationDate: string
+  citationDate: string
+  license: DatasetLicense
+  fileAccessRequest: boolean
+  files?: Array<FilePayload>
+  metadataBlocks?: DatasetMetadataBlocks
+}
+
+export interface DatasetVersionSubset {
+  versions: DatasetVersionInfo[]
+  totalCount: number
+}
