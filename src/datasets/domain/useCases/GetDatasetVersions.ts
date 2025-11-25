@@ -1,5 +1,5 @@
 import { UseCase } from '../../../core/domain/useCases/UseCase'
-import { DatasetVersionSubset } from '../models/DatasetVersionInfo'
+import { DatasetVersionSubset } from '../models/DatasetVersion'
 import { IDatasetsRepository } from '../repositories/IDatasetsRepository'
 
 export class GetDatasetVersions implements UseCase<DatasetVersionSubset> {

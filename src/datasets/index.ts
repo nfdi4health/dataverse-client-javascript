@@ -130,6 +130,7 @@ export {
   TermsOfUse
 } from './domain/models/Dataset'
 export { DatasetPreview } from './domain/models/DatasetPreview'
+export { DatasetVersion } from './domain/models/DatasetVersion'
 export { DatasetVersionDiff } from './domain/models/DatasetVersionDiff'
 export { DatasetPreviewSubset } from './domain/models/DatasetPreviewSubset'
 export {
