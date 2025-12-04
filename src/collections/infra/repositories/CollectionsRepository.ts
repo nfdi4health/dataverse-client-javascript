@@ -41,6 +41,10 @@ import { CollectionLinks } from '../../domain/models/CollectionLinks'
 import { CollectionSummary } from '../../domain/models/CollectionSummary'
 import { LinkingObjectType } from '../../domain/useCases/GetCollectionsForLinking'
 import { CreateDatasetTemplateDTO } from '../../domain/dtos/CreateDatasetTemplateDTO'
+import { Role } from '../../../roles/domain/models/Role'
+import {
+  transformCollectionDefaultContributorRoleToRole
+} from './transformers/collectionDefaultContributorRoleTransformers'
 
 export interface NewCollectionRequestPayload {
   alias: string
@@ -162,6 +166,21 @@ export class CollectionsRepository extends ApiRepository implements ICollections
     )
       .then((response) =>
         transformCollectionUserPermissionsResponseToCollectionUserPermissions(response)
+      )
+      .catch((error) => {
+        throw error
+      })
+  }
+
+  public async getDefaultContributorRole(
+    collectionIdOrAlias: number | string
+  ): Promise<Role> {
+    return this.doGet(
+      `/${this.collectionsResourceName}/${collectionIdOrAlias}/defaultContributorRole`,
+      true
+    )
+      .then((response) =>
+        transformCollectionDefaultContributorRoleToRole(response)
       )
       .catch((error) => {
         throw error

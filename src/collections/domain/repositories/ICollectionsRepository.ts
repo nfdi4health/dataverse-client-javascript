@@ -13,6 +13,7 @@ import { CollectionLinks } from '../models/CollectionLinks'
 import { CollectionSummary } from '../models/CollectionSummary'
 import { LinkingObjectType } from '../useCases/GetCollectionsForLinking'
 import { CreateDatasetTemplateDTO } from '../dtos/CreateDatasetTemplateDTO'
+import { Role } from '../../../roles/domain/models/Role'
 
 export interface ICollectionsRepository {
   getCollection(collectionIdOrAlias: number | string): Promise<Collection>
@@ -26,6 +27,9 @@ export interface ICollectionsRepository {
   getCollectionUserPermissions(
     collectionIdOrAlias: number | string
   ): Promise<CollectionUserPermissions>
+  getDefaultContributorRole(
+    collectionIdOrAlias: number | string
+  ): Promise<Role>
   getCollectionItems(
     collectionId?: string,
     limit?: number,
