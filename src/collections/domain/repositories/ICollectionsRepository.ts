@@ -30,6 +30,10 @@ export interface ICollectionsRepository {
   getDefaultContributorRole(
     collectionIdOrAlias: number | string
   ): Promise<Role>
+  setDefaultContributorRole(
+    collectionIdOrAlias: number | string,
+    roleAlias: string
+  ): Promise<void>
   getCollectionItems(
     collectionId?: string,
     limit?: number,
