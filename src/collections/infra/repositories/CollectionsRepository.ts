@@ -589,6 +589,32 @@ export class CollectionsRepository extends ApiRepository implements ICollections
       })
   }
 
+  public async getCollectionsForCreating(userIdentifier?: string): Promise<CollectionSummary[]> {
+    const queryParams = new URLSearchParams()
+
+    if (userIdentifier) {
+      queryParams.set(GetMyDataCollectionItemsQueryParams.USER_IDENTIFIER, userIdentifier)
+    }
+
+    return this.doGet("/mydata/retrieve/collectionList", true, queryParams)
+      .then((response) => {
+        const payload = response.data.data as {
+          id: number
+          alias: string
+          name: string
+        }[]
+
+        return payload.map((item) => ({
+          id: item.id,
+          alias: item.alias,
+          displayName: item.name
+        }))
+      })
+      .catch((error) => {
+        throw error
+      })
+  }
+
   public async createDatasetTemplate(
     collectionIdOrAlias: number | string,
     template: CreateDatasetTemplateDTO

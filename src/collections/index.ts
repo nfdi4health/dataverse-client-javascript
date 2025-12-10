@@ -16,6 +16,7 @@ import { LinkCollection } from './domain/useCases/LinkCollection'
 import { UnlinkCollection } from './domain/useCases/UnlinkCollection'
 import { GetCollectionLinks } from './domain/useCases/GetCollectionLinks'
 import { GetCollectionsForLinking } from './domain/useCases/GetCollectionsForLinking'
+import { GetCollectionsForCreating } from './domain/useCases/GetCollectionsForCreating'
 import { CreateDatasetTemplate } from './domain/useCases/CreateDatasetTemplate'
 import { GetDefaultContributorRole } from './domain/useCases/GetDefaultContributorRole'
 import { SetDefaultContributorRole } from './domain/useCases/SetDefaultContributorRole'
@@ -41,6 +42,7 @@ const linkCollection = new LinkCollection(collectionsRepository)
 const unlinkCollection = new UnlinkCollection(collectionsRepository)
 const getCollectionLinks = new GetCollectionLinks(collectionsRepository)
 const getCollectionsForLinking = new GetCollectionsForLinking(collectionsRepository)
+const getCollectionsForCreating = new GetCollectionsForCreating(collectionsRepository)
 const createDatasetTemplate = new CreateDatasetTemplate(collectionsRepository)
 const getDefaultContributorRole = new GetDefaultContributorRole(collectionsRepository)
 const setDefaultContributorRole = new SetDefaultContributorRole(collectionsRepository)
@@ -65,6 +67,7 @@ export {
   unlinkCollection,
   getCollectionLinks,
   getCollectionsForLinking,
+  getCollectionsForCreating,
   createDatasetTemplate,
   getDefaultContributorRole,
   setDefaultContributorRole,
