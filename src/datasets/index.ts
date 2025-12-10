@@ -34,6 +34,7 @@ import { DeleteDatasetType } from './domain/useCases/DeleteDatasetType'
 import { GetDatasetCitationInOtherFormats } from './domain/useCases/GetDatasetCitationInOtherFormats'
 import { GetDatasetTemplates } from './domain/useCases/GetDatasetTemplates'
 import { AssignRoleOnDataset } from './domain/useCases/AssignRoleOnDataset'
+import { UnassignRoleOnDataset } from './domain/useCases/UnassignRoleOnDataset'
 
 const datasetsRepository = new DatasetsRepository()
 
@@ -84,6 +85,7 @@ const deleteDatasetType = new DeleteDatasetType(datasetsRepository)
 const getDatasetCitationInOtherFormats = new GetDatasetCitationInOtherFormats(datasetsRepository)
 const getDatasetTemplates = new GetDatasetTemplates(datasetsRepository)
 const assignRoleOnDataset = new AssignRoleOnDataset(datasetsRepository)
+const unassignRoleOnDataset = new AssignRoleOnDataset(datasetsRepository)
 
 export {
   getDataset,
@@ -115,7 +117,8 @@ export {
   linkDatasetTypeWithMetadataBlocks,
   setAvailableLicensesForDatasetType,
   deleteDatasetType,
-  assignRoleOnDataset
+  assignRoleOnDataset,
+  unassignRoleOnDataset
 }
 export { DatasetNotNumberedVersion } from './domain/models/DatasetNotNumberedVersion'
 export { DatasetUserPermissions } from './domain/models/DatasetUserPermissions'
