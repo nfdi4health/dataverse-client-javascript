@@ -103,4 +103,9 @@ export interface IDatasetsRepository {
     licenses: string[]
   ): Promise<void>
   deleteDatasetType(datasetTypeId: number): Promise<void>
+  assignRoleOnDataset(
+    datasetId: number | string,
+    roleAssignee: string,
+    roleAlias: string
+  ): Promise<void>
 }
