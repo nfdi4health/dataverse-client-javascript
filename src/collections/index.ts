@@ -19,6 +19,7 @@ import { GetCollectionsForLinking } from './domain/useCases/GetCollectionsForLin
 import { CreateDatasetTemplate } from './domain/useCases/CreateDatasetTemplate'
 import { GetDefaultContributorRole } from './domain/useCases/GetDefaultContributorRole'
 import { SetDefaultContributorRole } from './domain/useCases/SetDefaultContributorRole'
+import { AssignRoleOnCollection } from './domain/useCases/AssignRoleOnCollection'
 
 const collectionsRepository = new CollectionsRepository()
 
@@ -42,6 +43,7 @@ const getCollectionsForLinking = new GetCollectionsForLinking(collectionsReposit
 const createDatasetTemplate = new CreateDatasetTemplate(collectionsRepository)
 const getDefaultContributorRole = new GetDefaultContributorRole(collectionsRepository)
 const setDefaultContributorRole = new SetDefaultContributorRole(collectionsRepository)
+const assignRoleOnCollection = new AssignRoleOnCollection(collectionsRepository)
 
 export {
   getCollection,
@@ -63,7 +65,8 @@ export {
   getCollectionsForLinking,
   createDatasetTemplate,
   getDefaultContributorRole,
-  setDefaultContributorRole
+  setDefaultContributorRole,
+  assignRoleOnCollection
 }
 export { Collection, CollectionInputLevel } from './domain/models/Collection'
 export { CollectionFacet } from './domain/models/CollectionFacet'

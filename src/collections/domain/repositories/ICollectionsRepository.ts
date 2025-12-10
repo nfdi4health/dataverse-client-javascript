@@ -34,6 +34,11 @@ export interface ICollectionsRepository {
     collectionIdOrAlias: number | string,
     roleAlias: string
   ): Promise<void>
+  assignRoleOnCollection(
+    collectionIdOrAlias: number | string,
+    roleAssignee: string,
+    roleAlias: string
+  ): Promise<void>
   getCollectionItems(
     collectionId?: string,
     limit?: number,
