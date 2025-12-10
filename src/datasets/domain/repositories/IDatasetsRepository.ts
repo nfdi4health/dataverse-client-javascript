@@ -121,4 +121,9 @@ export interface IDatasetsRepository {
   getDatasetStorageDriver(datasetId: number | string): Promise<StorageDriver>
   getDatasetUploadLimits(datasetId: number | string): Promise<DatasetUploadLimits>
   getDatasetReviews(datasetId: number | string): Promise<DatasetReview[]>
+  assignRoleOnDataset(
+    datasetId: number | string,
+    roleAssignee: string,
+    roleAlias: string
+  ): Promise<void>
 }
