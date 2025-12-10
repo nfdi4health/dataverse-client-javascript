@@ -85,7 +85,7 @@ const deleteDatasetType = new DeleteDatasetType(datasetsRepository)
 const getDatasetCitationInOtherFormats = new GetDatasetCitationInOtherFormats(datasetsRepository)
 const getDatasetTemplates = new GetDatasetTemplates(datasetsRepository)
 const assignRoleOnDataset = new AssignRoleOnDataset(datasetsRepository)
-const unassignRoleOnDataset = new AssignRoleOnDataset(datasetsRepository)
+const unassignRoleOnDataset = new UnassignRoleOnDataset(datasetsRepository)
 
 export {
   getDataset,
