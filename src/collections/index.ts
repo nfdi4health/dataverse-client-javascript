@@ -22,6 +22,7 @@ import { DeleteCollectionStorageDriver } from './domain/useCases/DeleteCollectio
 import { GetAllowedCollectionStorageDrivers } from './domain/useCases/GetAllowedCollectionStorageDrivers'
 import { GetDefaultContributorRole } from './domain/useCases/GetDefaultContributorRole'
 import { SetDefaultContributorRole } from './domain/useCases/SetDefaultContributorRole'
+import { AssignRoleOnCollection } from './domain/useCases/AssignRoleOnCollection'
 
 const collectionsRepository = new CollectionsRepository()
 
@@ -50,6 +51,7 @@ const getAllowedCollectionStorageDrivers = new GetAllowedCollectionStorageDriver
 )
 const getDefaultContributorRole = new GetDefaultContributorRole(collectionsRepository)
 const setDefaultContributorRole = new SetDefaultContributorRole(collectionsRepository)
+const assignRoleOnCollection = new AssignRoleOnCollection(collectionsRepository)
 
 export {
   getCollection,
@@ -74,7 +76,8 @@ export {
   deleteCollectionStorageDriver,
   getAllowedCollectionStorageDrivers,
   getDefaultContributorRole,
-  setDefaultContributorRole
+  setDefaultContributorRole,
+  assignRoleOnCollection
 }
 export { Collection, CollectionInputLevel, CollectionTheme } from './domain/models/Collection'
 export { CollectionFacet } from './domain/models/CollectionFacet'
