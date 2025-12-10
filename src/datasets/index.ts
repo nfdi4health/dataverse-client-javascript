@@ -39,6 +39,7 @@ import { GetDatasetUploadLimits } from './domain/useCases/GetDatasetUploadLimits
 import { GetDatasetReviews } from './domain/useCases/GetDatasetReviews'
 import { ExportDatasetMetadata } from './domain/useCases/ExportDatasetMetadata'
 import { AssignRoleOnDataset } from './domain/useCases/AssignRoleOnDataset'
+import { UnassignRoleOnDataset } from './domain/useCases/UnassignRoleOnDataset'
 
 const datasetsRepository = new DatasetsRepository()
 
@@ -94,6 +95,7 @@ const getDatasetUploadLimits = new GetDatasetUploadLimits(datasetsRepository)
 const getDatasetReviews = new GetDatasetReviews(datasetsRepository)
 const exportDatasetMetadata = new ExportDatasetMetadata(datasetsRepository)
 const assignRoleOnDataset = new AssignRoleOnDataset(datasetsRepository)
+const unassignRoleOnDataset = new AssignRoleOnDataset(datasetsRepository)
 
 export {
   getDataset,
@@ -130,7 +132,8 @@ export {
   getDatasetUploadLimits,
   getDatasetReviews,
   exportDatasetMetadata,
-  assignRoleOnDataset
+  assignRoleOnDataset,
+  unassignRoleOnDataset
 }
 export { DatasetNotNumberedVersion } from './domain/models/DatasetNotNumberedVersion'
 export { ExportedDatasetMetadata } from './domain/models/ExportedDatasetMetadata'
