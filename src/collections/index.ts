@@ -23,6 +23,7 @@ import { GetAllowedCollectionStorageDrivers } from './domain/useCases/GetAllowed
 import { GetDefaultContributorRole } from './domain/useCases/GetDefaultContributorRole'
 import { SetDefaultContributorRole } from './domain/useCases/SetDefaultContributorRole'
 import { AssignRoleOnCollection } from './domain/useCases/AssignRoleOnCollection'
+import { UnassignRoleOnCollection } from './domain/useCases/UnassignRoleOnCollection'
 
 const collectionsRepository = new CollectionsRepository()
 
@@ -52,6 +53,7 @@ const getAllowedCollectionStorageDrivers = new GetAllowedCollectionStorageDriver
 const getDefaultContributorRole = new GetDefaultContributorRole(collectionsRepository)
 const setDefaultContributorRole = new SetDefaultContributorRole(collectionsRepository)
 const assignRoleOnCollection = new AssignRoleOnCollection(collectionsRepository)
+const unassignRoleOnCollection = new UnassignRoleOnCollection(collectionsRepository)
 
 export {
   getCollection,
@@ -77,7 +79,8 @@ export {
   getAllowedCollectionStorageDrivers,
   getDefaultContributorRole,
   setDefaultContributorRole,
-  assignRoleOnCollection
+  assignRoleOnCollection,
+  unassignRoleOnCollection
 }
 export { Collection, CollectionInputLevel, CollectionTheme } from './domain/models/Collection'
 export { CollectionFacet } from './domain/models/CollectionFacet'
