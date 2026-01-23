@@ -870,6 +870,35 @@ Note that `collectionId` is an optional parameter to filter datasets by collecti
 
 The `DatasetPreviewSubset`returned instance contains a property called `totalDatasetCount` which is necessary for pagination.
 
+#### Get Dataset Versions
+
+Returns the total count of versions and an array of [DatasetVersion](../src/datasets/domain/models/DatasetVersion.ts) that contains information about every specific version.
+
+##### Example call:
+
+```typescript
+import { getDatasetVersions } from '@iqss/dataverse-client-javascript'
+
+/* ... */
+
+const datasetId = 'doi:10.77777/FK2/AAAAAA'
+
+getDatasetVersions
+  .execute(datasetId)
+  .then((datasetVersions: DatasetVersionSubset) => {
+    /* ... */
+  })
+
+/* ... */
+```
+
+_See [use case](../src/datasets/domain/useCases/GetDatasetVersions.ts) implementation_.
+
+- The `datasetId` parameter can be a string, for persistent identifiers, or a number, for numeric identifiers.
+- **limit**: (number) Limit for pagination.
+- **offset**: (number) Offset for pagination.
+- **excludeMetadataBlocks**: (boolean) Exclude metadata blocks (default: false).
+
 #### Get Dataset Versions Summaries
 
 Returns the total count of versions and an array of [DatasetVersionSummaryInfo](../src/datasets/domain/models/DatasetVersionSummaryInfo.ts) that contains information about what changed in every specific version.
