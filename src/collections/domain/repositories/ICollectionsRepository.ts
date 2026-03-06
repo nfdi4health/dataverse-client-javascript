@@ -16,7 +16,10 @@ import { CreateDatasetTemplateDTO } from '../dtos/CreateDatasetTemplateDTO'
 import { Role } from '../../../roles/domain/models/Role'
 
 export interface ICollectionsRepository {
-  getCollection(collectionIdOrAlias: number | string): Promise<Collection>
+  getCollection(
+    collectionIdOrAlias: number | string,
+    ignoreSettingExcludeEmailFromExport?: boolean
+  ): Promise<Collection>
   createCollection(
     collectionDTO: CollectionDTO,
     parentCollectionId: number | string
