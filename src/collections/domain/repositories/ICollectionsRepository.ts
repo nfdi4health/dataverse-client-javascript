@@ -18,7 +18,10 @@ import { RoleAlias } from '../../../roles/domain/models/RoleAlias'
 import { Role } from '../../../roles/domain/models/Role'
 
 export interface ICollectionsRepository {
-  getCollection(collectionIdOrAlias: number | string): Promise<Collection>
+  getCollection(
+    collectionIdOrAlias: number | string,
+    ignoreSettingExcludeEmailFromExport?: boolean
+  ): Promise<Collection>
   getCollectionStorageDriver(
     collectionIdOrAlias: number | string,
     getEffective?: boolean
