@@ -406,8 +406,12 @@ const transformPayloadToDatasetMetadataSubfieldValue = (
 ): DatasetMetadataSubField => {
   const result: DatasetMetadataSubField = {}
   Object.keys(metadataSubfieldValuePayload).forEach((key) => {
-    const subFieldValue = metadataSubfieldValuePayload[key].value
-    result[key] = keepRawFields ? subFieldValue : transformHtmlToMarkdown(subFieldValue)
+    const subField = metadataSubfieldValuePayload[key]
+    result[key] = transformPayloadToDatasetMetadataFieldValue(
+      subField.value,
+      subField.typeClass,
+      keepRawFields
+    )
   })
   return result
 }
