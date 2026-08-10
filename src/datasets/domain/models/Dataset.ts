@@ -95,7 +95,9 @@ export type DatasetMetadataFieldValue =
   | DatasetMetadataSubField[]
   | AnonymizedField
 
-export type DatasetMetadataSubField = Record<string, string | undefined>
+export interface DatasetMetadataSubField {
+  [key: string]: DatasetMetadataFieldValue | undefined
+}
 
 export interface CitationMetadataBlock extends DatasetMetadataBlock {
   name: 'citation'
