@@ -450,8 +450,9 @@ export class CollectionsRepository extends ApiRepository implements ICollections
         const filterQueryValue = filterQuery.substring(idx + 1).trim()
 
         const filterQueryToSet =
-          filterQueryValue === '*'
-            ? `${filterQueryKey}:*`
+          filterQueryValue === '*' ||
+          (filterQueryValue.startsWith('"') && filterQueryValue.endsWith('"'))
+            ? `${filterQueryKey}:${filterQueryValue}`
             : `${filterQueryKey}:"${filterQueryValue}"`
 
         queryParams.append(GetCollectionItemsQueryParams.FILTERQUERY, filterQueryToSet)
