@@ -88,6 +88,7 @@ export enum GetCollectionItemsQueryParams {
   FILTERQUERY = 'fq',
   SHOW_TYPE_COUNTS = 'show_type_counts',
   SHOW_COLLECTIONS = 'show_collections',
+  METADATA_FIELDS = 'metadata_fields',
   SEARCH_SERVICE_NAME = 'search_service'
 }
 
@@ -295,7 +296,9 @@ export class CollectionsRepository extends ApiRepository implements ICollections
     collectionSearchCriteria?: CollectionSearchCriteria,
     searchServiceName?: string,
     showTypeCounts?: boolean,
-    showCollections?: boolean
+    showCollections?: boolean,
+    metadataFields?: `${string}:${string}`[],
+    keepRawFields?: boolean
   ): Promise<CollectionItemSubset> {
     const queryParams = new URLSearchParams({
       [GetCollectionItemsQueryParams.QUERY]: '*',
@@ -324,6 +327,10 @@ export class CollectionsRepository extends ApiRepository implements ICollections
       queryParams.set(GetCollectionItemsQueryParams.SHOW_COLLECTIONS, 'true')
     }
 
+    metadataFields?.forEach((metadataField) => {
+      queryParams.append(GetCollectionItemsQueryParams.METADATA_FIELDS, metadataField)
+    })
+
     if (searchServiceName) {
       queryParams.set(GetCollectionItemsQueryParams.SEARCH_SERVICE_NAME, searchServiceName)
     }
@@ -333,7 +340,9 @@ export class CollectionsRepository extends ApiRepository implements ICollections
     }
 
     return this.doGet('/search', true, queryParams)
-      .then((response) => transformCollectionItemsResponseToCollectionItemSubset(response))
+      .then((response) =>
+        transformCollectionItemsResponseToCollectionItemSubset(response, keepRawFields)
+      )
       .catch((error) => {
         throw error
       })
