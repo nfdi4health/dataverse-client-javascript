@@ -20,6 +20,7 @@ export class GetCollectionItems implements UseCase<CollectionItemSubset> {
    * @param {CollectionSearchCriteria} [collectionSearchCriteria] - Supports filtering the collection items by different properties (optional).
    * @param {string} [searchServiceName] - The search service name on which to execute the search (optional).
    * @param {boolean} [showTypeCounts] - If true, the response will include the count per object type (optional).
+   * @param {boolean} [showCollections] - If true, dataset results will include the collections they belong to (optional).
    * @returns {Promise<CollectionItemSubset>}
    */
   async execute(
@@ -28,7 +29,8 @@ export class GetCollectionItems implements UseCase<CollectionItemSubset> {
     offset?: number,
     collectionSearchCriteria?: CollectionSearchCriteria,
     searchServiceName?: string,
-    showTypeCounts = false
+    showTypeCounts = false,
+    showCollections = false
   ): Promise<CollectionItemSubset> {
     return await this.collectionsRepository.getCollectionItems(
       collectionId,
@@ -36,7 +38,8 @@ export class GetCollectionItems implements UseCase<CollectionItemSubset> {
       offset,
       collectionSearchCriteria,
       searchServiceName,
-      showTypeCounts
+      showTypeCounts,
+      showCollections
     )
   }
 }
