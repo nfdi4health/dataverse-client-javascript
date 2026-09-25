@@ -64,6 +64,7 @@ export const transformDatasetPreviewPayloadToDatasetPreview = (
     publicationStatuses: publicationStatuses,
     parentCollectionAlias: datasetPreviewPayload.identifier_of_dataverse,
     parentCollectionName: datasetPreviewPayload.name_of_dataverse,
+    relatedDatasetCount: datasetPreviewPayload.relatedDatasetCount,
     ...(datasetPreviewPayload.image_url && {
       imageUrl: datasetPreviewPayload.image_url
     }),
