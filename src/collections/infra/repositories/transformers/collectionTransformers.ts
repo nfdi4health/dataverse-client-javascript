@@ -101,7 +101,8 @@ const transformInputLevelsPayloadToInputLevels = (
 }
 
 export const transformCollectionItemsResponseToCollectionItemSubset = (
-  response: AxiosResponse
+  response: AxiosResponse,
+  keepRawFields = false
 ): CollectionItemSubset => {
   const responseDataPayload = response.data.data
   const itemsPayload = responseDataPayload.items
@@ -119,7 +120,10 @@ export const transformCollectionItemsResponseToCollectionItemSubset = (
       items.push(transformFilePreviewPayloadToFilePreview(itemPayload as FilePreviewPayload))
     } else if (itemPayload.type === 'dataset') {
       items.push(
-        transformDatasetPreviewPayloadToDatasetPreview(itemPayload as DatasetPreviewPayload)
+        transformDatasetPreviewPayloadToDatasetPreview(
+          itemPayload as DatasetPreviewPayload,
+          keepRawFields
+        )
       )
     } else if (itemPayload.type === 'dataverse') {
       items.push(
