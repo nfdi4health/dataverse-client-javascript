@@ -15,6 +15,7 @@ export interface DatasetPreview {
   publicationStatuses: PublicationStatus[]
   parentCollectionName: string
   parentCollectionAlias: string
+  relatedDatasetCount?: number
   imageUrl?: string
   userRoles?: string[]
   collections?: CollectionSummary[]
