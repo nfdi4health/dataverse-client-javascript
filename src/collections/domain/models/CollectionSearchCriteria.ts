@@ -17,7 +17,7 @@ export class CollectionSearchCriteria {
     public readonly itemTypes?: CollectionItemType[],
     public readonly sort?: SortType,
     public readonly order?: OrderType,
-    public readonly filterQueries?: string[]
+    public readonly filterQueries?: string | string[]
   ) {}
 
   withSearchText(searchText: string | undefined): CollectionSearchCriteria {
@@ -60,7 +60,7 @@ export class CollectionSearchCriteria {
     )
   }
 
-  withFilterQueries(filterQueries: string[] | undefined): CollectionSearchCriteria {
+  withFilterQueries(filterQueries: string | string[] | undefined): CollectionSearchCriteria {
     return new CollectionSearchCriteria(
       this.searchText,
       this.itemTypes,
