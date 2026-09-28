@@ -434,12 +434,19 @@ export class CollectionsRepository extends ApiRepository implements ICollections
     }
 
     if (collectionSearchCriteria?.filterQueries) {
-      collectionSearchCriteria.filterQueries.forEach((filterQuery) => {
+      if (typeof collectionSearchCriteria.filterQueries === 'string') {
         queryParams.append(
           GetCollectionItemsQueryParams.FILTERQUERY,
-          formatFilterQuery(filterQuery)
+          collectionSearchCriteria.filterQueries
         )
-      })
+      } else {
+        collectionSearchCriteria.filterQueries.forEach((filterQuery) => {
+          queryParams.append(
+            GetCollectionItemsQueryParams.FILTERQUERY,
+            formatFilterQuery(filterQuery)
+          )
+        })
+      }
     }
   }
 
@@ -642,10 +649,6 @@ export class CollectionsRepository extends ApiRepository implements ICollections
 }
 
 const formatFilterQuery = (filterQuery: string): string => {
-  if (isStructuredFilterQuery(filterQuery)) {
-    return filterQuery
-  }
-
   const separatorIndex = filterQuery.indexOf(':')
   if (separatorIndex === -1) {
     return filterQuery
@@ -655,26 +658,4 @@ const formatFilterQuery = (filterQuery: string): string => {
   const filterQueryValue = filterQuery.substring(separatorIndex + 1).trim()
 
   return `${filterQueryKey}:"${filterQueryValue}"`
-}
-
-// Structured queries use Solr syntax that must not be wrapped in quotes, such as parenthesized expressions, wildcards,
-// ranges, quoted or regex values, and fuzzy or boosted terms.
-const isStructuredFilterQuery = (filterQuery: string): boolean => {
-  const trimmedFilterQuery = filterQuery.trim()
-  const separatorIndex = trimmedFilterQuery.indexOf(':')
-
-  if (separatorIndex === -1) {
-    return true
-  }
-
-  const value = trimmedFilterQuery.substring(separatorIndex + 1).trim()
-
-  return (
-    /[()]|\b(AND|OR)\b/i.test(trimmedFilterQuery) ||
-    /[*?~^]/.test(value) ||
-    (value.startsWith('"') && value.endsWith('"')) ||
-    (value.startsWith('[') && value.endsWith(']')) ||
-    (value.startsWith('{') && value.endsWith('}')) ||
-    (value.startsWith('/') && value.endsWith('/'))
-  )
 }
