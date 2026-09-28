@@ -435,27 +435,10 @@ export class CollectionsRepository extends ApiRepository implements ICollections
 
     if (collectionSearchCriteria?.filterQueries) {
       collectionSearchCriteria.filterQueries.forEach((filterQuery) => {
-        if (/[()]|\b(AND|OR)\b/i.test(filterQuery)) {
-          queryParams.append(GetCollectionItemsQueryParams.FILTERQUERY, filterQuery)
-          return
-        }
-
-        const idx = filterQuery.indexOf(':')
-        if (idx === -1) {
-          queryParams.append(GetCollectionItemsQueryParams.FILTERQUERY, filterQuery)
-          return
-        }
-
-        const filterQueryKey = filterQuery.substring(0, idx).trim()
-        const filterQueryValue = filterQuery.substring(idx + 1).trim()
-
-        const filterQueryToSet =
-          filterQueryValue === '*' ||
-          (filterQueryValue.startsWith('"') && filterQueryValue.endsWith('"'))
-            ? `${filterQueryKey}:${filterQueryValue}`
-            : `${filterQueryKey}:"${filterQueryValue}"`
-
-        queryParams.append(GetCollectionItemsQueryParams.FILTERQUERY, filterQueryToSet)
+        queryParams.append(
+          GetCollectionItemsQueryParams.FILTERQUERY,
+          formatFilterQuery(filterQuery)
+        )
       })
     }
   }
@@ -656,4 +639,42 @@ export class CollectionsRepository extends ApiRepository implements ICollections
         throw error
       })
   }
+}
+
+const formatFilterQuery = (filterQuery: string): string => {
+  if (isStructuredFilterQuery(filterQuery)) {
+    return filterQuery
+  }
+
+  const separatorIndex = filterQuery.indexOf(':')
+  if (separatorIndex === -1) {
+    return filterQuery
+  }
+
+  const filterQueryKey = filterQuery.substring(0, separatorIndex).trim()
+  const filterQueryValue = filterQuery.substring(separatorIndex + 1).trim()
+
+  return `${filterQueryKey}:"${filterQueryValue}"`
+}
+
+// Structured queries use Solr syntax that must not be wrapped in quotes, such as parenthesized expressions, wildcards,
+// ranges, quoted or regex values, and fuzzy or boosted terms.
+const isStructuredFilterQuery = (filterQuery: string): boolean => {
+  const trimmedFilterQuery = filterQuery.trim()
+  const separatorIndex = trimmedFilterQuery.indexOf(':')
+
+  if (separatorIndex === -1) {
+    return true
+  }
+
+  const value = trimmedFilterQuery.substring(separatorIndex + 1).trim()
+
+  return (
+    /[()]|\b(AND|OR)\b/i.test(trimmedFilterQuery) ||
+    /[*?~^]/.test(value) ||
+    (value.startsWith('"') && value.endsWith('"')) ||
+    (value.startsWith('[') && value.endsWith(']')) ||
+    (value.startsWith('{') && value.endsWith('}')) ||
+    (value.startsWith('/') && value.endsWith('/'))
+  )
 }
