@@ -186,7 +186,8 @@ export const transformCollectionLinksResponseToCollectionLinks = (
   }
 }
 export const transformMyDataResponseToCollectionItemSubset = (
-  response: AxiosResponse
+  response: AxiosResponse,
+  keepRawFields = false
 ): MyDataCollectionItemSubset => {
   const responseDataPayload = response.data.data
   const itemsPayload = responseDataPayload.items
@@ -209,7 +210,8 @@ export const transformMyDataResponseToCollectionItemSubset = (
     } else if (itemPayload.type === 'dataset') {
       items.push(
         transformMyDataDatasetPreviewPayloadToDatasetPreview(
-          itemPayload as MyDataDatasetPreviewPayload
+          itemPayload as MyDataDatasetPreviewPayload,
+          keepRawFields
         )
       )
     } else if (itemPayload.type === 'dataverse') {

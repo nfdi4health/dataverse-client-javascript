@@ -79,7 +79,9 @@ export interface ICollectionsRepository {
     selectedPage?: number,
     searchText?: string,
     otherUserName?: string,
-    showCollections?: boolean
+    showCollections?: boolean,
+    metadataFields?: `${string}:${string}`[],
+    keepRawFields?: boolean
   ): Promise<MyDataCollectionItemSubset>
   updateCollection(
     collectionIdOrAlias: number | string,
