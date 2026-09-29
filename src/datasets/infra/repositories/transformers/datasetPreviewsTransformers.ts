@@ -67,7 +67,9 @@ export const transformDatasetPreviewPayloadToDatasetPreview = (
     publicationStatuses: publicationStatuses,
     parentCollectionAlias: datasetPreviewPayload.identifier_of_dataverse,
     parentCollectionName: datasetPreviewPayload.name_of_dataverse,
-    relatedDatasetCount: datasetPreviewPayload.relatedDatasetCount,
+    ...(datasetPreviewPayload.relatedDatasetCount !== undefined && {
+      relatedDatasetCount: datasetPreviewPayload.relatedDatasetCount
+    }),
     ...(datasetPreviewPayload.image_url && {
       imageUrl: datasetPreviewPayload.image_url
     }),
@@ -114,6 +116,12 @@ export const transformMyDataDatasetPreviewPayloadToDatasetPreview = (
     publicationStatuses: publicationStatuses,
     parentCollectionAlias: datasetPreviewPayload.identifier_of_dataverse,
     parentCollectionName: datasetPreviewPayload.name_of_dataverse,
+    ...(datasetPreviewPayload.permissions !== undefined && {
+      permissions: datasetPreviewPayload.permissions
+    }),
+    ...(datasetPreviewPayload.completionStatus !== undefined && {
+      completionStatus: datasetPreviewPayload.completionStatus
+    }),
     ...(datasetPreviewPayload.image_url && {
       imageUrl: datasetPreviewPayload.image_url
     }),

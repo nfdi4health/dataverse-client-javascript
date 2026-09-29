@@ -16,6 +16,8 @@ export interface DatasetPreview {
   parentCollectionName: string
   parentCollectionAlias: string
   relatedDatasetCount?: number
+  permissions?: any
+  completionStatus?: any
   imageUrl?: string
   userRoles?: string[]
   collections?: CollectionSummary[]

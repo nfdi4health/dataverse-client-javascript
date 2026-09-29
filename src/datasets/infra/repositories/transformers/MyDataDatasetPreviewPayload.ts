@@ -20,6 +20,8 @@ export interface MyDataDatasetPreviewPayload {
   user_roles: string[]
   image_url?: string
   published_at?: string
+  permissions?: any
+  completionStatus?: any
   collections?: MyDataDatasetCollectionPayload[]
   metadataBlocks?: MetadataBlocksPayload
 }
