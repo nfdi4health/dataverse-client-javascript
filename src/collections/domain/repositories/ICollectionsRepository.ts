@@ -64,7 +64,8 @@ export interface ICollectionsRepository {
     limit?: number,
     selectedPage?: number,
     searchText?: string,
-    otherUserName?: string
+    otherUserName?: string,
+    showCollections?: boolean
   ): Promise<MyDataCollectionItemSubset>
   updateCollection(
     collectionIdOrAlias: number | string,

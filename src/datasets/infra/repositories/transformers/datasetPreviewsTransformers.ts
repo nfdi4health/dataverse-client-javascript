@@ -6,7 +6,10 @@ import { DatasetPreviewCollectionPayload, DatasetPreviewPayload } from './Datase
 import { CollectionSummary } from '../../../../collections/domain/models/CollectionSummary'
 import { PublicationStatus } from '../../../../core/domain/models/PublicationStatus'
 import { CollectionItemType } from '../../../../collections/domain/models/CollectionItemType'
-import { MyDataDatasetPreviewPayload } from './MyDataDatasetPreviewPayload'
+import {
+  MyDataDatasetCollectionPayload,
+  MyDataDatasetPreviewPayload
+} from './MyDataDatasetPreviewPayload'
 import { DatasetMetadataBlock } from '../../../domain/models/Dataset'
 import { transformPayloadToDatasetMetadataBlocks } from './datasetTransformers'
 
@@ -80,6 +83,13 @@ export const transformMyDataDatasetPreviewPayloadToDatasetPreview = (
   datasetPreviewPayload.publicationStatuses.forEach((element) => {
     publicationStatuses.push(element as unknown as PublicationStatus)
   })
+  const collections: CollectionSummary[] | undefined = datasetPreviewPayload.collections?.map(
+    (collection: MyDataDatasetCollectionPayload) => ({
+      id: collection.id,
+      alias: collection.alias,
+      displayName: collection.name
+    })
+  )
   return {
     type: CollectionItemType.DATASET,
     persistentId: datasetPreviewPayload.global_id,
@@ -103,6 +113,7 @@ export const transformMyDataDatasetPreviewPayloadToDatasetPreview = (
     ...(datasetPreviewPayload.image_url && {
       imageUrl: datasetPreviewPayload.image_url
     }),
-    userRoles: datasetPreviewPayload.user_roles
+    userRoles: datasetPreviewPayload.user_roles,
+    ...(collections && { collections })
   }
 }
