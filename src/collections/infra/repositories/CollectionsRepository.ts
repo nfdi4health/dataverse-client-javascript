@@ -99,7 +99,8 @@ export enum GetMyDataCollectionItemsQueryParams {
   PUBLISHED_STATES = 'published_states',
   USER_IDENTIFIER = 'userIdentifier',
   SHOW_COLLECTIONS = 'show_collections',
-  METADATA_FIELDS = 'metadata_fields'
+  METADATA_FIELDS = 'metadata_fields',
+  FILTERQUERY = 'fq'
 }
 
 export class CollectionsRepository extends ApiRepository implements ICollectionsRepository {
@@ -315,7 +316,8 @@ export class CollectionsRepository extends ApiRepository implements ICollections
     userIdentifier?: string,
     showCollections?: boolean,
     metadataFields?: `${string}:${string}`[],
-    keepRawFields = false
+    keepRawFields = false,
+    filterQueries?: string | string[]
   ): Promise<MyDataCollectionItemSubset> {
     const queryParams = new URLSearchParams()
 
@@ -345,6 +347,10 @@ export class CollectionsRepository extends ApiRepository implements ICollections
     metadataFields?.forEach((metadataField) => {
       queryParams.append(GetMyDataCollectionItemsQueryParams.METADATA_FIELDS, metadataField)
     })
+
+    if (filterQueries) {
+      this.applyFilterQueriesToQueryParams(queryParams, filterQueries)
+    }
 
     collectionItemTypes.forEach((itemType) => {
       let mappedItemType: string
@@ -447,19 +453,23 @@ export class CollectionsRepository extends ApiRepository implements ICollections
     }
 
     if (collectionSearchCriteria?.filterQueries) {
-      if (typeof collectionSearchCriteria.filterQueries === 'string') {
+      this.applyFilterQueriesToQueryParams(queryParams, collectionSearchCriteria.filterQueries)
+    }
+  }
+
+  private applyFilterQueriesToQueryParams(
+    queryParams: URLSearchParams,
+    filterQueries: string | string[]
+  ) {
+    if (typeof filterQueries === 'string') {
+      queryParams.append(GetCollectionItemsQueryParams.FILTERQUERY, filterQueries)
+    } else {
+      filterQueries.forEach((filterQuery) => {
         queryParams.append(
           GetCollectionItemsQueryParams.FILTERQUERY,
-          collectionSearchCriteria.filterQueries
+          formatFilterQuery(filterQuery)
         )
-      } else {
-        collectionSearchCriteria.filterQueries.forEach((filterQuery) => {
-          queryParams.append(
-            GetCollectionItemsQueryParams.FILTERQUERY,
-            formatFilterQuery(filterQuery)
-          )
-        })
-      }
+      })
     }
   }
 
