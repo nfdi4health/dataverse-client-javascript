@@ -6,7 +6,10 @@ import { DatasetPreviewCollectionPayload, DatasetPreviewPayload } from './Datase
 import { CollectionSummary } from '../../../../collections/domain/models/CollectionSummary'
 import { PublicationStatus } from '../../../../core/domain/models/PublicationStatus'
 import { CollectionItemType } from '../../../../collections/domain/models/CollectionItemType'
-import { MyDataDatasetPreviewPayload } from './MyDataDatasetPreviewPayload'
+import {
+  MyDataDatasetCollectionPayload,
+  MyDataDatasetPreviewPayload
+} from './MyDataDatasetPreviewPayload'
 import { DatasetMetadataBlock } from '../../../domain/models/Dataset'
 import { transformPayloadToDatasetMetadataBlocks } from './datasetTransformers'
 
@@ -64,7 +67,9 @@ export const transformDatasetPreviewPayloadToDatasetPreview = (
     publicationStatuses: publicationStatuses,
     parentCollectionAlias: datasetPreviewPayload.identifier_of_dataverse,
     parentCollectionName: datasetPreviewPayload.name_of_dataverse,
-    relatedDatasetCount: datasetPreviewPayload.relatedDatasetCount,
+    ...(datasetPreviewPayload.relatedDatasetCount !== undefined && {
+      relatedDatasetCount: datasetPreviewPayload.relatedDatasetCount
+    }),
     ...(datasetPreviewPayload.image_url && {
       imageUrl: datasetPreviewPayload.image_url
     }),
@@ -74,12 +79,23 @@ export const transformDatasetPreviewPayloadToDatasetPreview = (
 }
 
 export const transformMyDataDatasetPreviewPayloadToDatasetPreview = (
-  datasetPreviewPayload: MyDataDatasetPreviewPayload
+  datasetPreviewPayload: MyDataDatasetPreviewPayload,
+  keepRawFields = false
 ): DatasetPreview => {
   const publicationStatuses: PublicationStatus[] = []
   datasetPreviewPayload.publicationStatuses.forEach((element) => {
     publicationStatuses.push(element as unknown as PublicationStatus)
   })
+  const collections: CollectionSummary[] | undefined = datasetPreviewPayload.collections?.map(
+    (collection: MyDataDatasetCollectionPayload) => ({
+      id: collection.id,
+      alias: collection.alias,
+      displayName: collection.name
+    })
+  )
+  const metadataBlocks: DatasetMetadataBlock[] | undefined = datasetPreviewPayload.metadataBlocks
+    ? transformPayloadToDatasetMetadataBlocks(datasetPreviewPayload.metadataBlocks, keepRawFields)
+    : undefined
   return {
     type: CollectionItemType.DATASET,
     persistentId: datasetPreviewPayload.global_id,
@@ -100,9 +116,17 @@ export const transformMyDataDatasetPreviewPayloadToDatasetPreview = (
     publicationStatuses: publicationStatuses,
     parentCollectionAlias: datasetPreviewPayload.identifier_of_dataverse,
     parentCollectionName: datasetPreviewPayload.name_of_dataverse,
+    ...(datasetPreviewPayload.permissions !== undefined && {
+      permissions: datasetPreviewPayload.permissions
+    }),
+    ...(datasetPreviewPayload.completionStatus !== undefined && {
+      completionStatus: datasetPreviewPayload.completionStatus
+    }),
     ...(datasetPreviewPayload.image_url && {
       imageUrl: datasetPreviewPayload.image_url
     }),
-    userRoles: datasetPreviewPayload.user_roles
+    userRoles: datasetPreviewPayload.user_roles,
+    ...(collections && { collections }),
+    ...(metadataBlocks && { metadataBlocks })
   }
 }
