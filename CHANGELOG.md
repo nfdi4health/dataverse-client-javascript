@@ -8,6 +8,8 @@ This changelog follows the principles of [Keep a Changelog](https://keepachangel
 
 ### Added
 
+- Datasets: Support deeply nested metadata fields in the use cases `createDataset` and `updateDataset`.
+
 ### Changed
 
 ### Fixed
