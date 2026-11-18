@@ -1,11 +1,13 @@
 import {
   createDatasetMetadataBlockModel,
   createDatasetDTO,
-  createNewDatasetRequestPayload
+  createNewDatasetRequestPayload,
+  createDatasetNestedMetadataBlockModel
 } from '../../testHelpers/datasets/datasetHelper'
 import { createDatasetLicenseModel } from '../../testHelpers/datasets/datasetHelper'
 import {
   transformDatasetModelToNewDatasetRequestPayload,
+  transformDatasetModelToUpdateDatasetRequestPayload,
   transformPayloadToDatasetMetadataBlocks
 } from '../../../src/datasets/infra/repositories/transformers/datasetTransformers'
 import { MetadataBlocksPayload } from '../../../src/datasets/infra/repositories/transformers/DatasetPayload'
@@ -70,6 +72,46 @@ describe('transformNewDatasetModelToRequestPayload', () => {
 
     expect(actual).toEqual({ ...createNewDatasetRequestPayload(), templateId: 3 })
   })
+
+  test('should support deeply nested compound values', () => {
+    const metadataBlock = createDatasetNestedMetadataBlockModel()
+    const dataset = {
+      metadataBlockValues: [
+        {
+          name: 'citation',
+          fields: { author: [{ authorDetails: { authorName: 'Deeply nested value' } }] }
+        }
+      ]
+    }
+    const expectedFields = [
+      {
+        typeName: 'author',
+        typeClass: 'compound',
+        multiple: true,
+        value: [
+          {
+            authorDetails: {
+              typeName: 'authorDetails',
+              typeClass: 'compound',
+              multiple: false,
+              value: {
+                authorName: {
+                  typeName: 'authorName',
+                  typeClass: 'primitive',
+                  multiple: false,
+                  value: 'Deeply nested value'
+                }
+              }
+            }
+          }
+        ]
+      }
+    ]
+
+    const actual = transformDatasetModelToNewDatasetRequestPayload(dataset, [metadataBlock])
+
+    expect(actual.datasetVersion.metadataBlocks.citation.fields).toStrictEqual(expectedFields)
+  })
 })
 
 describe('transformPayloadToDatasetMetadataBlocks', () => {
@@ -107,7 +149,48 @@ describe('transformPayloadToDatasetMetadataBlocks', () => {
     const deeplyNestedBlock = actual.find((block) => block.name === 'deeplyNestedBlock')
     const fields = deeplyNestedBlock?.fields
 
-    expect(fields).toStrictEqual({'a': {'a.b': {'a.b.c': 'Deeply nested value'}}})
+    expect(fields).toStrictEqual({ a: { 'a.b': { 'a.b.c': 'Deeply nested value' } } })
   })
 })
 
+describe('transformDatasetModelToUpdateDatasetRequestPayload', () => {
+  test('should support deeply nested compound values', () => {
+    const metadataBlock = createDatasetNestedMetadataBlockModel()
+    const dataset = {
+      metadataBlockValues: [
+        {
+          name: 'citation',
+          fields: { author: [{ authorDetails: { authorName: 'Deeply nested value' } }] }
+        }
+      ]
+    }
+    const expectedFields = [
+      {
+        typeName: 'author',
+        typeClass: 'compound',
+        multiple: true,
+        value: [
+          {
+            authorDetails: {
+              typeName: 'authorDetails',
+              typeClass: 'compound',
+              multiple: false,
+              value: {
+                authorName: {
+                  typeName: 'authorName',
+                  typeClass: 'primitive',
+                  multiple: false,
+                  value: 'Deeply nested value'
+                }
+              }
+            }
+          }
+        ]
+      }
+    ]
+
+    const actual = transformDatasetModelToUpdateDatasetRequestPayload(dataset, [metadataBlock])
+
+    expect(actual.fields).toStrictEqual(expectedFields)
+  })
+})
