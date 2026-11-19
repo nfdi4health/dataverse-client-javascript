@@ -141,6 +141,8 @@ export { DatasetUserPermissions } from './domain/models/DatasetUserPermissions'
 export { DatasetLock, DatasetLockType } from './domain/models/DatasetLock'
 export {
   Dataset,
+  DatasetRelation,
+  DatasetRelationType,
   DatasetLicense,
   DatasetVersionInfo,
   DatasetVersionState,
