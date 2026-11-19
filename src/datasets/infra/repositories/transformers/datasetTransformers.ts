@@ -311,6 +311,9 @@ export const transformVersionPayloadToDataset = (
   if ('datasetType' in versionPayload) {
     datasetModel.datasetType = versionPayload.datasetType
   }
+  if ('relations' in versionPayload) {
+    datasetModel.relations = versionPayload.relations
+  }
   return datasetModel
 }
 

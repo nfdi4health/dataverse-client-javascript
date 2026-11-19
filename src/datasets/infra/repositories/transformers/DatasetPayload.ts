@@ -1,3 +1,4 @@
+import { DatasetRelation } from '../../../domain/models/Dataset'
 import { FilePayload } from '../../../../files/infra/repositories/transformers/FilePayload'
 import { OwnerNodePayload } from '../../../../core/infra/repositories/transformers/OwnerNodePayload'
 
@@ -39,6 +40,7 @@ export interface DatasetPayload {
   isPartOf: OwnerNodePayload
   deaccessionNote?: string
   datasetType?: string
+  relations?: DatasetRelation[]
 }
 
 export interface DatasetLicensePayload {
