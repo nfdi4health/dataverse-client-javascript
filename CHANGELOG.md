@@ -14,6 +14,8 @@ This changelog follows the principles of [Keep a Changelog](https://keepachangel
 
 ### Fixed
 
+- Datasets: Allow partial metadata updates with `updateDataset` without requiring omitted required fields to be resubmitted.
+
 ### Removed
 
 ## [v2.3.0] -- 2026-10-08
