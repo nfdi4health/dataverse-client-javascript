@@ -17,6 +17,32 @@ export interface Dataset {
   metadataBlocks: DatasetMetadataBlocks
   isPartOf: DvObjectOwnerNode
   datasetType?: string
+  relations?: DatasetRelation[]
+}
+
+export interface DatasetRelation {
+  id: number
+  definitionPointPid: string
+  datasetPid: string
+  relatedDatasetPid?: string
+  relatedDataset?: {
+    metadataBlocks: DatasetMetadataBlocks
+  }
+  externalIdentifier?: string
+  identifierScheme?: string
+  relatedDatasetType?: {
+    name?: string
+    displayName: string
+  }
+  relationType?: DatasetRelationType
+}
+
+export interface DatasetRelationType {
+  name: string
+  displayName: string
+  description?: string
+  default: boolean
+  inverse?: DatasetRelationType
 }
 
 export interface DatasetVersionInfo {

@@ -8,9 +8,13 @@ This changelog follows the principles of [Keep a Changelog](https://keepachangel
 
 ### Added
 
+- Datasets: Support deeply nested metadata fields in the use cases `createDataset` and `updateDataset`.
+
 ### Changed
 
 ### Fixed
+
+- Datasets: Allow partial metadata updates with `updateDataset` without requiring omitted required fields to be resubmitted.
 
 ### Removed
 

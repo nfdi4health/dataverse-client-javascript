@@ -203,9 +203,11 @@ export const transformMetadataChildFieldValueToRequestPayload = (
     const childMetadataFieldInfo: MetadataFieldInfo = (
       metadataBlockFieldInfo.childMetadataFields as Record<string, MetadataFieldInfo>
     )[metadataChildFieldKey]
-    const value: string = datasetMetadataChildFieldValue[metadataChildFieldKey] as unknown as string
     metadataChildFieldRequestPayload[metadataChildFieldKey] = {
-      value: value,
+      value: transformMetadataFieldValueToRequestPayload(
+        datasetMetadataChildFieldValue[metadataChildFieldKey],
+        childMetadataFieldInfo
+      ),
       typeClass: childMetadataFieldInfo.typeClass,
       multiple: childMetadataFieldInfo.multiple,
       typeName: metadataChildFieldKey
@@ -308,6 +310,9 @@ export const transformVersionPayloadToDataset = (
   }
   if ('datasetType' in versionPayload) {
     datasetModel.datasetType = versionPayload.datasetType
+  }
+  if ('relations' in versionPayload) {
+    datasetModel.relations = versionPayload.relations
   }
   return datasetModel
 }
